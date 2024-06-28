@@ -23,6 +23,8 @@ url = cfg['lemon_raw_url']
 r = requests.get(url)
 data = bs4.BeautifulSoup(r.text, "html.parser")
 
+num_sub_get = 10 # if you will download all participants data, set 1000
+count_sub = 0
 for l in data.find_all("a"):
     subj_id = l.get_text()[:-1]
 
@@ -44,6 +46,10 @@ for l in data.find_all("a"):
 
             urllib.request.urlretrieve(remote_file, filename=local_file)
 
+        count_sub = count_sub + 1
+        if count_sub >= num_sub_get:
+            print("Download done")
+            break
 
 #%% ---------------------------
 #
